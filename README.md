@@ -21,7 +21,11 @@ Then, you can use the following commands:
 + **add** `<license>` `<file>` `[<description>]`: register new file
 + **rm** `<file>`: unregister file
 + **show** `<file>`: display information about the given file
+
+Or to get information about SPDX licenses :
+
 + **licenses**: list available licenses (base on the [SPDX license list]((http://spdx.org/licenses/)))
++ **search** `<expression>`: Search licenses matching `expression`
 + **update**: update SPDX license list
 
 Keep in mind that **the license identifier should be registered in [SPDX License list](http://spdx.org/licenses/)**

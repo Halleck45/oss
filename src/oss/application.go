@@ -76,6 +76,22 @@ func (app *Application) Run(command string) {
 				fmt.Println("")
 			}
 
+		// Search license
+		// -------------------------
+		case "search":
+			if(len(os.Args) < 3) {
+				fmt.Println("Parameters are missing")
+				fmt.Println("Usage: ./oss search <license>")
+				return;
+			}
+			term := os.Args[2]
+			licenses := app.Service.Spdx.SearchMatching(term)
+			for _, license := range licenses {
+				fmt.Printf("%-30s %s", license.Identifier, license.Name)
+				fmt.Println("")
+			}
+			return
+
 		//
 		// Display information about one file
 		// -------------------------
@@ -113,6 +129,12 @@ func (app *Application) Run(command string) {
 			spdxlicense, err := app.Service.Spdx.Get(lic)
 			if(err != nil) {
 				fmt.Printf("License %s is not registred in SPDX database\n", lic)
+
+				// search license by metaphon
+				license, err := app.Service.Spdx.SearchAround(lic);
+				if(err == nil) {
+					fmt.Printf("Did you mean %s (%s) ?\n", license.Identifier, license.Name)
+				}
 				return
 			}
 			app.Service.Load()
@@ -163,6 +185,7 @@ func (app *Application) Run(command string) {
 			fmt.Printf("	%-20s %s", "update", "Update SPDX licenses list\n")
 			fmt.Printf("	%-20s %s", "status", "List assets of the project\n")
 			fmt.Printf("	%-20s %s", "licenses", "List SPDX licenses\n")
+			fmt.Printf("	%-20s %s", "search", "Search licenses matching term. Usage: search <expression>\n")
 			fmt.Printf("	%-20s %s", "version", "Dislay current version\n")
 			fmt.Printf("	%-20s %s", "help", "This help\n")
 		default:

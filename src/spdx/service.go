@@ -17,6 +17,8 @@ import (
 	"net/http"
 	"io"
 	"errors"
+	"github.com/dotcypress/phonetics"
+	"regexp"
 )
 
 
@@ -100,5 +102,48 @@ func (c *Service) All() map[string]SpdxLicense {
 	}
 	licenses := map[string]SpdxLicense{}
 	json.Unmarshal(file, &licenses)
+	return licenses
+}
+
+/**
+ * Search term by metaphon
+ */
+func (c *Service) SearchAround(term string) (License, error) {
+
+	max := 0
+	var bestMatch string
+	for identifier, _:= range c.All() {
+		proximity := phonetics.DifferenceSoundex(term, identifier)
+		if(proximity > max) {
+			bestMatch = identifier
+			max = proximity
+		}
+	}
+
+	// factory license
+	license, _ := c.Get(bestMatch)
+	return license, nil
+
+}
+
+/**
+ * Search term matching
+ */
+func (c *Service) SearchMatching(term string) (map[string]License) {
+	licenses := map[string]License{}
+	r, _ := regexp.Compile(fmt.Sprintf("(%s+)", term))
+	for identifier, spdxLicense:= range c.All() {
+		if r.MatchString(identifier) || r.MatchString(spdxLicense.Name) {
+			license, _ := c.Get(identifier)
+
+			// replace matched part
+			replacement := fmt.Sprintf("%s%s%s", "\x1b[32m", term, "\x1b[0m")
+			license.Identifier = r.ReplaceAllString(license.Identifier, replacement)
+			license.Name = r.ReplaceAllString(license.Name, replacement)
+
+			licenses[identifier] = license
+
+		}
+	}
 	return licenses
 }
