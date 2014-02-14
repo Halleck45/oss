@@ -1,19 +1,27 @@
 REPLACE=`semver tag`
 
-# Build
-# Usage:
-#   make build RELEASE=major
-#   make build RELEASE=minor
-#   make build RELEASE=patch
+init:
+	@export GOPATH=~/go:`pwd`
 
-build:
+install:
+	go get github.com/mitchellh/gox
+	go get github.com/dotcypress/phonetics
+	go get github.com/stretchr/testify
+
+test:
+	@go test github.com/halleck45/...
+
+build: test
 	@echo "Building release: `semver tag`"
-	@go build  -ldflags "-X main.version `semver tag`" oss.go
+	@gox -build-toolchain -ldflags "-X main.version `semver tag`" oss.go
+
+publish:
+	@./publish.sh
+
 
 tag:
 	@semver inc $(RELEASE)
 	@echo "New release: `semver tag`"
 
-# Tag git with last release
 git_tag:
 	@git tag -a $(semver tag) -m "tagging $(semver tag)"

@@ -1,3 +1,7 @@
 .oss-licenses.json
 .idea
 .oss
+env.sh
+pkg
+build
+bin

@@ -8,8 +8,8 @@ package main
 
 import (
 	"os"
-	"./src/oss"
-	"./src/spdx"
+	"github.com/halleck45/oss/license"
+	"github.com/halleck45/oss/spdx"
 )
 
 func main() {
@@ -21,9 +21,9 @@ func main() {
 		command = os.Args[1];
 	}
 
-	spdx := spdx.Service{LicenseFilename: "./.oss-licenses.json"}
-	service := oss.Service{Spdx: spdx, Filename: "./.oss"}
-	app := oss.Application{Service: service, Version: version}
+	spdxService := spdx.Service{LicenseFilename: "./.oss-licenses.json"}
+	service := license.Service{SpdxService: spdxService, Filename: "./.oss"}
+	app := license.Application{Service: service, Version: version}
 	app.Run(command)
 
 }
