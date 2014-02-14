@@ -5,9 +5,19 @@ Tool for managing Open Source assets.
 ## Why ?
 
 Managing Open Source assets is a hard task in any project ; we often download awesome librairies, images or medias, but 
-where to keep trace of all theses files ? How can I manage Open Source licenses of my project ? 
+where to keep trace of all theses files ? How can I manage Open Source licenses of medias in my project ? 
 
 That's the problem oss try to resolve today.
+
+![simple overview of oss](./doc/overview.gif)
+
+## Installation
+
+Download binary for your platform:
+
++ Linux Debian: [64bits](http://dl.bintray.com/halleck45/OSS/oss_linux_amd64), [32bits](http://dl.bintray.com/halleck45/OSS/oss_linux_386)
++ Windows: [64bits](http://dl.bintray.com/halleck45/OSS/oss_windows_amd64.exe), [32bits](http://dl.bintray.com/halleck45/OSS/oss_windows_386.exe)
++ [Others platforms](http://dl.bintray.com/halleck45/OSS/)
 
 ## Usage
 
@@ -36,9 +46,13 @@ MIT License. Copyright (c) Jean-François Lépine. See LICENSE for details.
 
 ## Contributing
 
-You need to install:
 
-+ [go](https://golang.org/)
-+ [semver](https://github.com/flazz/semver/)
+    clone git@github.com:Halleck45/OSS.git
+    cd OSS
+    make init && make install
+    ( ... your development ...)
+    make build
+    
+Remember to keep tests up to date (and, of course, to run them with `make test`)
 
-Please never run `go build` manually. You should run `make build`.
+Builds are hosted by [bintray](https://bintray.com). Today, only me (Halleck45) has permission to publish binaries.
