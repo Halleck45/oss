@@ -17,10 +17,11 @@ On first run, please execute
     
 Then, you can use the following commands:
 
++ **status**: list assets of the project
 + **add** `<license>` `<file>` `[<description>]`: register new file
++ **rm** `<file>`: unregister file
 + **show** `<file>`: display information about the given file
-+ **list**: list assets of the project
-+ **list-licenses**: list available licenses (base on the [SPDX license list]((http://spdx.org/licenses/)))
++ **licenses**: list available licenses (base on the [SPDX license list]((http://spdx.org/licenses/)))
 + **update**: update SPDX license list
 
 Keep in mind that **the license identifier should be registered in [SPDX License list](http://spdx.org/licenses/)**
