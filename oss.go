@@ -8,17 +8,18 @@ package main
 
 import (
 	"os"
-	"github.com/halleck45/oss/license"
-	"github.com/halleck45/oss/spdx"
+
+	"github.com/halleck45/oss/src/license"
+	"github.com/halleck45/oss/src/spdx"
 )
 
 func main() {
 
 	var command string
-	if(len(os.Args) < 2) {
+	if len(os.Args) < 2 {
 		command = "help"
 	} else {
-		command = os.Args[1];
+		command = os.Args[1]
 	}
 
 	spdxService := spdx.Service{LicenseFilename: "./.oss-licenses.json"}

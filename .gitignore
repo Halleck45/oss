@@ -5,3 +5,4 @@ env.sh
 pkg
 build
 bin
+dist

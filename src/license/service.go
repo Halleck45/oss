@@ -11,20 +11,20 @@ package license
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"errors"
-	"github.com/halleck45/oss/spdx"
-)
 
+	"github.com/halleck45/oss/src/spdx"
+)
 
 /**
  * Service
  */
 type Service struct {
-	Filename string
-	Manif Manifest
+	Filename    string
+	Manif       Manifest
 	SpdxService spdx.Service
 }
 
@@ -40,7 +40,7 @@ func (c *Service) Init() (err error) {
 		c.Save()
 	} else {
 		err = c.Load()
-		if(err != nil) {
+		if err != nil {
 			return err
 		}
 	}
@@ -52,7 +52,7 @@ func (c *Service) Init() (err error) {
 /**
  * Load current manifest
  */
-func (c *Service) Load() (err error){
+func (c *Service) Load() (err error) {
 	// file exists ; load it
 	file, err := os.Open(c.Filename)
 	if err != nil {
@@ -64,7 +64,6 @@ func (c *Service) Load() (err error){
 	err = jsonParser.Decode(&c.Manif)
 	return err
 }
-
 
 /**
  * Add asset in manifest
@@ -82,7 +81,7 @@ func (c *Service) Add(a Asset) {
  */
 func (c *Service) Get(file string) (asset Asset, err error) {
 	for _, asset := range c.Manif.Assets {
-		if(asset.File == file) {
+		if asset.File == file {
 			return asset, nil
 		}
 	}

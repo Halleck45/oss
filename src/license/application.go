@@ -189,6 +189,6 @@ func (app *Application) Run(command string) {
 			fmt.Printf("	%-20s %s", "version", "Dislay current version\n")
 			fmt.Printf("	%-20s %s", "help", "This help\n")
 		default:
-			fmt.Println("Command %s not found", command)
+			fmt.Printf("Command %s not found\n", command)
 	}
 }
