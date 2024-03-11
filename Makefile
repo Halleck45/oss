@@ -1,22 +1,15 @@
 REPLACE=`semver tag`
-
-init:
-	@export GOPATH=~/go:`pwd`
-
-install:
-	go get github.com/mitchellh/gox
-	go get github.com/dotcypress/phonetics
-	go get github.com/stretchr/testify
+.PHONY: build
 
 test:
-	@go test github.com/halleck45/...
+	@go test ./...
 
-build: test
-	@echo "Building release: `semver tag`"
-	@gox -build-toolchain -ldflags "-X main.version `semver tag`" oss.go
-
-publish:
-	@./publish.sh
+build:
+	@echo "\e[34m\033[1m-> Building go binaries for supported platforms\033[0m\e[39m\n"
+	rm -Rf dist || true
+	go install github.com/goreleaser/goreleaser@latest
+	GOPATH=$(HOME)/go PATH=$$PATH:$(HOME)/go/bin goreleaser build --snapshot
+	@echo "\e[34m\033[1mDONE \033[0m\e[39m\n"
 
 
 tag:

@@ -1,0 +1,37 @@
+name: goreleaser
+
+on:
+  push:
+    # run only against tags
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+
+jobs:
+  goreleaser:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Install go dependencies
+      - uses: actions/setup-go@v4
+        with:
+          go-version: stable
+
+      # run tests
+      - name: "Test application"
+        run: go test
+
+      # Build artifacts
+      - uses: goreleaser/goreleaser-action@v5
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
